@@ -1,5 +1,10 @@
 Build.PL
 Changes
+ex/benchmark.pl
+ex/Foo_Bar_Moose.pm
+ex/Foo_Bar_Moose2.pm
+ex/Foo_Bar_Tiny.pm
+ex/Foo_Bar_Tiny2.pm
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm
 inc/Module/Install/AutoInstall.pm
@@ -14,8 +19,8 @@ inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Moose/Tiny.pm
 Makefile.PL
-MANIFEST
-META.yml			# Will be created by "make dist"
+MANIFEST			This list of files
+META.yml
 README
 t/00.load.t
 t/01_main.t

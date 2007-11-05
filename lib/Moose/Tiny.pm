@@ -1,6 +1,6 @@
 package Moose::Tiny;
 use strict;
-our $VERSION = '0.0.2';
+our $VERSION = '0.0.3';
 use Moose 0.26;
 
 sub import {
@@ -23,11 +23,12 @@ sub import {
             defined and !ref and /^[^\W\d]\w*$/s
               or die "Invalid accessor name '$_'";
           } @_;
+        $meta->make_immutable;
     }
     return 1;
 }
 
-no Moose;
+no Moose;               # unimport moose features
 1;                      # Magic true value required at end of module
 __END__
 
@@ -38,7 +39,7 @@ Moose::Tiny - Why Should Object::Tiny get all the Fun
 
 =head1 VERSION
 
-This document describes Moose::Tiny version 0.0.1
+This document describes Moose::Tiny version 0.0.3
 
 
 =head1 SYNOPSIS
@@ -56,7 +57,7 @@ This document describes Moose::Tiny version 0.0.1
 
     print "bar is " . $object->bar . "\n";
   
-  
+
 =head1 DESCRIPTION
 
 I was looking at Object::Tiny and thought, wow I bet I could do that really easily with Moose. I was right.
@@ -83,6 +84,7 @@ or a larger list
     )
 
 This will create a bunch of simple accessors, and set the inheritance to be the child of Moose::Object, just like if you'd created them with Moose itself.
+It will also make your class immutable for performance reasons (and because if you're using this you probably don't care).
 
 =head1 WHY?
 
@@ -129,6 +131,23 @@ Mooe::Tiny has all of the build requirements of Moose itself. Be prepared to ins
     be, but Object::Tiny does not take any noticable time to load, even in the same scenario.
 
 This is also an overhead cost from Moose. Neither have been reccomended for use in a critical situation where you are constantly restarting the perl process (eg. CGI). If you find yourself in this situation either try to use a persistant environment (pperl, mod_perl, fastcgi) or try Object::Tiny. On the plus side, our API is 100% compatible so you can switch bak and forth easily.
+
+=head2 Benchmarks
+
+    Benchmarking constructor plus accessors...
+              Rate moose  tiny
+    moose  94607/s    --  -56%
+    tiny  213675/s  126%    --
+
+    Benchmarking constructor alone...
+              Rate moose  tiny
+    moose 136799/s    --  -68%
+    tiny  421941/s  208%    --
+
+    Benchmarking accessors alone...
+           Rate moose  tiny
+    moose 485/s    --  -19%
+    tiny  599/s   23%    --
 
 =head1 DEPENDENCIES
 
